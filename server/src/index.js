@@ -1,0 +1,72 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+import path from "path";
+import corsOptions from "./config/cors";
+import connectMongoDB from "./config/database";
+import credentials from "./middleware/credentials";
+import errorHandlerMiddleware from "./middleware/error_handler";
+import authenticationMiddleware from "./middleware/authentication"
+const app = express();
+const PORT = process.env.PORT || 3500;
+
+connectMongoDB();
+
+
+//Allow Credentials
+app.use(credentials);
+
+//CORS
+app.use(cors(corsOptions));
+
+//application.x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+//application/json response
+app.use(express.json());
+
+//middleware for cookies
+app.use(cookieParser());
+
+app.use(authenticationMiddleware);
+
+//static files
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+//Default error hander
+app.use(errorHandlerMiddleware);
+
+
+const apiPrefix = "/api/v1"
+
+//Routes project
+
+// auth
+import authRoute from "./routes/api/auth";
+//categories
+import categoriesRoute from "./routes/api/categoriesRoute"
+//subcategories
+import subcategoriesRoute from "./routes/api/subCategoriesRoute"
+
+app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute)
+
+
+app.all('*', (req, res) => {
+    res.sendStatus(404);
+    if (req.accepts('json')) {
+        res.json({ 'error': '404 not Found' })
+    } else {
+        res.type('text').send('404 Not Found')
+    }
+})
+
+
+mongoose.connection.once("open", () => {
+    console.log('DB connected')
+    app.listen(PORT, () => { console.log(`Server connect on port http://localhost:${PORT}`) });
+})
+

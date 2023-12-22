@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="container">
-            <div class="row-cols-1">
+        <div class="container min-h-inherit">
+            <div class="row-cols-1 min-h-inherit">
                 <div class="row py-lg-5">
                     <div class="col-lg-6 col-md-8 mx-auto">
                         <h1>{{ $t('pages.project.topSide.header') }}</h1>

@@ -31,50 +31,72 @@ const adminRoutes = [
                 meta: { requireAuth: true },
                 children: [
                     {
-                        path: '/core/admin/profile',
-                        name: 'core.admin.profile',
-                        meta: {
-                            pageTitle: 'Profile',
-                        },
-                        component: () => import('@/admin/views/admin/auth/Profile.vue')
-                    },
-                    {
                         path: '/core/admin/dasboard',
                         name: 'core.admin.dashboard',
                         component: () => import('@/admin/views/admin/dashboard/Dashboard.vue'),
+                        meta: {
+                            pageTitle: 'Dashboard',
+                        },
                     },
+                    {
+                        path: '/core/admin/profile',
+                        name: 'core.admin.profile',
+                        component: () => import('@/admin/views/admin/auth/Profile.vue'),
+                        meta: {
+                            pageTitle: 'Profile',
+                        },
+                    },
+
 
                     // category route
                     {
                         path: '/core/admin/category/index',
                         name: 'core.admin.category.index',
                         component: () => import('@/admin/views/admin/category/IndexCategory.vue'),
+                        meta: {
+                            pageTitle: 'Category',
+                        },
                     },
                     {
                         path: '/core/admin/category/create',
                         name: 'core.admin.category.create',
-                        component: () => import('@/admin/views/admin/category/CreateCategory.vue')
+                        component: () => import('@/admin/views/admin/category/CreateCategory.vue'),
+                        meta: {
+                            pageTitle: 'Create Category',
+                        },
                     },
                     {
                         path: '/core/admin/category/edit/:id',
                         name: 'core.admin.editCategory',
-                        component: () => import('@/admin/views/admin/category/EditCategory.vue')
+                        component: () => import('@/admin/views/admin/category/EditCategory.vue'),
+                        meta: {
+                            pageTitle: 'Edit Category',
+                        },
                     },
                     // subCategory route
                     {
                         path: '/core/admin/sub-category/index',
                         name: 'core.admin.indexSubCategory',
-                        component: () => import('@/admin/views/admin/subCategory/indexSubCategory.vue')
+                        component: () => import('@/admin/views/admin/subCategory/indexSubCategory.vue'),
+                        meta: {
+                            pageTitle: 'SubCategory',
+                        },
                     },
                     {
                         path: '/core/admin/sub-category/create',
                         name: 'core.admin.createSubCategory',
-                        component: () => import('@/admin/views/admin/subCategory/createSubCategory.vue')
+                        component: () => import('@/admin/views/admin/subCategory/createSubCategory.vue'),
+                        meta: {
+                            pageTitle: 'Create SubCategory',
+                        },
                     },
                     {
                         path: '/core/admin/sub-category/edit/:id',
                         name: 'core.admin.editSubCategory',
-                        component: () => import('@/admin/views/admin/subCategory/editSubCategory.vue')
+                        component: () => import('@/admin/views/admin/subCategory/editSubCategory.vue'),
+                        meta: {
+                            pageTitle: 'Edit SubCategory',
+                        },
                     },
                 ]
             }

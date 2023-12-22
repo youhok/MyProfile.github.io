@@ -4,6 +4,7 @@
         <button class="btn" id="sidebar-toggle" @click="toggleSidebar.toggleSidebar()">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="navbar-collapse navbar shadow-none">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">

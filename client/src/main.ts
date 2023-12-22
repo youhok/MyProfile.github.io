@@ -6,6 +6,10 @@ import router from './router';
 import { createI18n } from 'vue-i18n';
 import { authentication } from './admin/plugins/authentications';
 
+
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
+
+
 import VueSplide from '@splidejs/vue-splide';
 
 import { plugin, defaultConfig } from "@formkit/vue";
@@ -31,6 +35,8 @@ const i18n = createI18n({
 });
 
 
+
+
 const options = {
     color: `var(--primary)`,
     failedColor: '#874b4b',
@@ -50,6 +56,11 @@ const pinia = createPinia();
 
 const app = createApp(App);
 app.use(pinia);
+
+
+app.use(Vue3Toastify, {
+    autoClose: 3000,
+} as ToastContainerOptions);
 
 app.use(VueProgressBar, options);
 app.use(VueSplide);

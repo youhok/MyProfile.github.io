@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useToggleSidebarStore = defineStore('toggleSidebar', {
     state: () => {
-        return { isShowSidebar: false }
+        return { isShowSidebar: true }
     },
     actions: {
         toggleSidebar() {
@@ -10,3 +10,5 @@ export const useToggleSidebarStore = defineStore('toggleSidebar', {
         },
     },
 });
+
+

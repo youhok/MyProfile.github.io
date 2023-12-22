@@ -1,23 +1,35 @@
 <template>
     <div>
-        <NavigationBar :mode="mode" @taggleSwitch="toggleSwitch()" />
-        <router-view />
+        <NavigationBar />
+        <main>
+            <router-view />
+        </main>
+
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+
 import NavigationBar from "../components/NavigationBar.vue";
 
-const mode = ref<string>('');
 
-function toggleSwitch() {
-    if (mode.value === 'light') {
-        mode.value = "dark"
-    } else {
-        mode.value = "light"
-    }
-}
+
+// const mode = ref<string>('');
+
+// function toggleSwitch() {
+//     if (mode.value === 'light') {
+//         mode.value = "dark"
+//     } else {
+//         mode.value = "light"
+//     }
+// }
+
+
+
 </script>
 
-<style scoped></style>
+<style scoped>
+main {
+    min-height: calc(100vh - 66px);
+}
+</style>

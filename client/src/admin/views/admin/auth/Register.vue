@@ -4,7 +4,6 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content rounded-4 shadow">
                     <div class="modal-body p-5">
-
                         <FormKit type="form" id="registration-example" :form-class="submitted ? 'hide' : 'show'"
                             submit-label="Register" @submit="submitHandler" :actions="false">
                             <h2 class="fw-bold mb-0">Register</h2>
@@ -35,10 +34,6 @@
                             <FormKit type="submit" label="Register" />
 
                         </FormKit>
-                        <div v-if="submitted">
-                            <h2>Submission successful!</h2>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -74,6 +69,14 @@ const submitHandler = async (formData: RegisterData) => {
 </script>
 
 <style scoped>
+.modal {
+    height: 100vh;
+    height: 100vh;
+    background: #474bff;
+    background: -webkit-linear-gradient(0deg, #474bff 0%, #bc48ff 100%);
+    background: linear-gradient(0deg, #474bff 0%, #bc48ff 100%);
+}
+
 .double {
     display: flex;
     gap: 20px;

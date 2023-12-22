@@ -1,16 +1,19 @@
 
 <template>
-  <div class="content" :class="mode" :data-bs-theme="mode">
+  <div :class="isDark ? 'dark' : 'light'" :data-bs-theme="isDark ? 'dark' : 'light'">
     <router-view v-slot="{ Component }">
       <transition name="slide" mode="out-in">
-        <component :mode="mode" :is="Component" />
+        <component :mode="isDark ? 'dark' : 'light'" :is="Component" />
       </transition>
     </router-view>
+
     <vue-progress-bar></vue-progress-bar>
-    <LoadingVue />
+    <!-- <LoadingVue /> -->
   </div>
 </template>
 <script setup lang="ts">
+import { useDark } from '@vueuse/core';
+const isDark = useDark();
 // import LoadingVue from "@/components/Loading.vue";
 </script>
 <style scoped>

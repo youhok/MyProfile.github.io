@@ -1,6 +1,6 @@
 <template>
-    <div class="container text-center">
-        <div class="row conten  align-items-center p-5 ">
+    <div class="container text-center min-h-inherit">
+        <div class="row min-h-inherit  align-items-center p-5 ">
             <div class="col-lg-12">
                 <h1>{{ $t('pages.contact.leftSide.header') }}</h1>
                 <h4>{{ $t('pages.contact.leftSide.content') }}</h4>

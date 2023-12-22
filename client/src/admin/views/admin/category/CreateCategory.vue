@@ -4,17 +4,17 @@
             :actions="false" @submit="submitHandler">
             <div class="container mt-5 ">
                 <div class="row align-items-center">
-                    <div class="col-3">
+                    <div class="col-lg-3 col-sm-12 col-md-6">
                         <FormKit type="text" name="khName" label="khmer" placeholder="khName" validation="required" />
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-sm-12 col-md-6">
                         <FormKit type="text" name="enName" label="english" placeholder="enName" validation="required" />
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-sm-12 col-md-6">
                         <FormKit type="select" label="Type" name="type" placeholder="Select a Type"
                             :options="StaticOption.type" />
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3 col-sm-12 col-md-6">
                         <FormKit type="select" label="Status" name="status" placeholder="Select a Status"
                             :options="StaticOption.status" />
 
@@ -42,7 +42,9 @@
 import { ref } from 'vue'
 import StaticOption from '@/admin/options/staticOption'
 import { CategoriesController, type Categories } from "@/admin/controllers/categoriesController"
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 
 const submitted = ref<boolean>(false)
 const submitHandler = async (formdata: Categories) => {
@@ -52,7 +54,7 @@ const submitHandler = async (formdata: Categories) => {
         const response = await CategoriesController.create(formdata);
 
         console.log(response.data);
-
+        router.back()
         submitted.value = true;
     } catch (error: Error | any) {
         console.error("Error submitting form:", error);

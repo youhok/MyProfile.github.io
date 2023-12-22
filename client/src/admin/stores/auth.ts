@@ -59,7 +59,14 @@ export const useAuthStore = defineStore('auth', {
                 await this.getUser()
                 return data
             } catch (error: Error | any) {
-                throw error.response.message
+                console.log("🚀 ~ file: auth.ts:62 ~ login ~ error:", error)
+                if (error.response && error.response.data && error.response.data.message) {
+                    throw error.response.data.message;
+                } else if (error.message) {
+                    throw error.message;
+                } else {
+                    throw 'Unknown error occurred during login.';
+                }
             };
         },
         async register(payload: RegisterData) {

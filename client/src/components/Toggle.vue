@@ -1,20 +1,19 @@
 <template>
     <div>
-        <input id="checkboxInput" type="checkbox" :checked="mode === 'dark'" @change="$emit('taggleSwitch')" />
+        <input id="checkboxInput" type="checkbox" @click="toggleDark()" />
         <label class="toggleSwitch" for="checkboxInput">
         </label>
     </div>
 </template>
 
 <script setup lang="ts">
-// import { emit } from 'process';
-import { defineProps } from 'vue';
-const props = defineProps({
-    mode: {
-        type: String,
-        requrie: true,
-    }
-})
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark();
+
+const toggleDark = useToggle(isDark);
+
+useDark
 
 </script>
 

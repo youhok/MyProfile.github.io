@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <div class="row conten  align-items-center p-3 ">
+    <div class="container min-h-inherit">
+        <div class="row min-h-inherit  align-items-center p-3 ">
 
             <div class=" col-lg-6 col-md-12 order-2 col-sm-12 order-2">
 

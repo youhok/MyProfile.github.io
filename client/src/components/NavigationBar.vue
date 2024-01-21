@@ -32,7 +32,8 @@ import { defineProps } from 'vue';
 import { ref } from 'vue';
 import Toggle from './Toggle.vue';
 
-const publicRoutes = routes[0].children.filter((rc) => rc.name !== 'routeChecker');
+const publicRoutes = routes[0].children.filter((rc) => rc.name !== 'routeChecker' && rc.name !== 'project.detail');
+
 
 import {
     MDBIcon,

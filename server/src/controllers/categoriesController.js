@@ -1,16 +1,16 @@
 import categories from "../models/categories";
 import mongoose from "mongoose";
+import AlertMessage from "../utils/alert-message";
 const { ObjectId } = mongoose.Types;
 
 const categoriesController = {
     create: async (req, res) => {
         const { khName, enName, status, type } = req.body
-        console.log("🚀 ~ file: categoriesController.js:7 ~ create: ~ req.body:", req.body)
         try {
             const newCategory = await categories.create({
                 khName, enName, status, type
             });
-            res.json(newCategory);
+            res.status(201).json({ data: newCategory, message: AlertMessage.createSuccess });
         } catch (error) {
             console.log(error)
             res.status(500).json({ error: error.message });
@@ -39,7 +39,7 @@ const categoriesController = {
         try {
             const updatedCategory = await categories.findByIdAndUpdate(req.params.id, req.body, { new: true });
             console.log(updatedCategory)
-            res.json(updatedCategory);
+            res.status(201).json({ data: updatedCategory, message: AlertMessage.editSuccess });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -47,7 +47,7 @@ const categoriesController = {
     delete: async (req, res) => {
         try {
             const deletedCategory = await categories.findByIdAndDelete(req.params.id);
-            res.json(deletedCategory);
+            res.status(201).json({ data: deletedCategory, message: AlertMessage.deleteSuccess(req.params.id) });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

@@ -53,7 +53,7 @@ const submitted = ref<boolean>(false);
 const submitHandler = async (formData: RegisterData) => {
 
     try {
-        console.log("🚀 ~ file: Register.vue:59 ~ submitHandler ~ formData:", formData)
+
         const response = await authStore.register(formData);
 
         router.replace({ name: "core.login" })

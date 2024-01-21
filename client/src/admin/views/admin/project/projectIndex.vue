@@ -4,78 +4,66 @@
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex justify-content-between">
-                        <h2>Category</h2>
+                        <h2>Project</h2>
                         <button type="button" class="btn btn-primary Btn-add" @click="navigatetoCreate">Create</button>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-12 mt-4 ">
-                    <!-- Search  -->
-                    <FormKit type="search" placeholder="Search..." v-model="searchValue">
-                        <template #prefixIcon>
-                            <i class="bi bi-search mx-2 "></i>
-                        </template>
-                    </FormKit>
-                    <!-- Operation -->
+            <div class="row">
+                <div class="col-12 mt-4">
                     <EasyDataTable buttons-pagination theme-color=var(--primary) show-index
-                        table-class-name="customize-table shadow-sm" :headers="headers" :items="items"
-                        :search-field="searchField" :search-value="searchValue">
-                        <template #item-operation="item">
-                            <EasyDataTableOperations @delete="DeleteCategories(item._id)" @edit="
-                                navigateToEdit(item._id)" />
+                        table-class-name="customize-table shadow-sm" :headers="headers" :items="items">
+                        <template #item-gallary="{ thumbnail }">
+                            <div class="project-image-wrapper">
+                                <CloudImage :imageName="thumbnail.public_id" class="project-image" />
+                            </div>
                         </template>
                     </EasyDataTable>
-
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-
-import EasyDataTableOperations from "@/admin/components/easy-data-table/EasyDataTableOperations.vue"
-import { ref, onMounted } from 'vue';
-import { CategoriesController } from '@/admin/controllers/categoriesController';
-import { useRouter } from 'vue-router';
+import CloudImage from "@/admin/components/CloudImage.vue";
+import { projectController } from "@/admin/controllers/projectController"
 import type { Header, Item } from "vue3-easy-data-table";
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
 
-const searchField = ["khName", "status"];
-const searchValue = ref();
+const router = useRouter();
+
+
+const navigatetoCreate = () => {
+    router.push({
+        path: '/core/admin/project/create'
+    })
+}
+
+
 
 const headers: Header[] = [
-    { text: "KhName", value: "khName" },
-    { text: "EnName", value: "enName" },
-    { text: "Type", value: "type" },
+    { text: "Gallary", value: "gallary" },
+    { text: "Name", value: "name" },
+    { text: "Description", value: "description" },
+    { text: "Release Date", value: "releaseDate" },
     { text: "Status", value: "status" },
-    { text: "Operation", value: "operation", width: 200 },
 ];
 
 
+
 const items = ref<Item[]>([]);
-const router = useRouter();
 
-const navigateToEdit = (id: string) => {
-    router.push({ name: 'core.admin.editCategory', params: { id } });
-};
-
-const DeleteCategories = async (id: string) => {
-    await CategoriesController.delete(id)
-    items.value = items.value.filter((c) => c._id !== id)
-
-}
-const navigatetoCreate = () => {
-    router.push({
-        path: '/core/admin/category/create'
-    })
-}
 
 onMounted(
     async () => {
         try {
-            const response = await CategoriesController.getAll();
+            const response = await projectController.getAll();
             items.value = response;
+            console.log("🚀 ~ file: projectIndex.vue:57 ~ items:", items.value)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -83,7 +71,7 @@ onMounted(
 
 </script>
 
-<style scoped>
+<style>
 .customize-table {
     --easy-table-border: 1px solid #e0e1dd;
     --easy-table-row-border: 1px solid #e0e1dd;
@@ -118,6 +106,24 @@ onMounted(
     --easy-table-rows-per-page-selector-option-padding: 10px;
     --easy-table-rows-per-page-selector-z-index: 1;
 
-    --easy-table-loading-mask-background-color: #2d3a4f;
+
+    --easy-table-loading-mask-background-color: white;
+}
+
+.project-image-wrapper {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.project-image {
+    margin-right: 10px;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
 </style>

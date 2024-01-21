@@ -6,9 +6,12 @@ import router from './router';
 import { createI18n } from 'vue-i18n';
 import { authentication } from './admin/plugins/authentications';
 
-
 import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css'
+import { ToasityConfig } from './config/toastify.config'
 
+import Vue3EasyDataTable from 'vue3-easy-data-table';
+import 'vue3-easy-data-table/dist/style.css';
 
 import VueSplide from '@splidejs/vue-splide';
 
@@ -34,9 +37,6 @@ const i18n = createI18n({
     }
 });
 
-
-
-
 const options = {
     color: `var(--primary)`,
     failedColor: '#874b4b',
@@ -50,17 +50,13 @@ const options = {
     location: "top",
     inverse: false,
 };
-
 const pinia = createPinia();
-
 
 const app = createApp(App);
 app.use(pinia);
 
-
-app.use(Vue3Toastify, {
-    autoClose: 3000,
-} as ToastContainerOptions);
+app.component('EasyDataTable', Vue3EasyDataTable);
+app.use(Vue3Toastify, ToasityConfig as ToastContainerOptions);
 
 app.use(VueProgressBar, options);
 app.use(VueSplide);
@@ -74,7 +70,6 @@ authentication.install().then(() => {
 })
 
 // ...
-
 
 // Navigation Router Guards
 const progress = app.config.globalProperties.$Progress

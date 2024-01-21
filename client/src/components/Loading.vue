@@ -1,92 +1,132 @@
 <template>
-    <div>
-        <div class="spinner-wrapper d-flex justify-content-center m-5">
-            <div class="code-loader" v-if="!isloading">
-                <span>{</span><span>}</span>
-            </div>
-        </div>
+    <div class="container">
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
 
-const isloading = ref<boolean>(false);
-onMounted(() => {
-    document.onreadystatechange = () => {
-        if (document.readyState == "complete") {
-            isloading.value = true;
-        }
-    }
-})
 </script>
 
 <style scoped>
-.spinner-wrapper {
-    top: 300px;
-    left: 0;
-
-    position: fixed;
-    width: 93%;
-    /* height: 100%; */
-    z-index: 9999;
-    /* display: flex; */
-    /* justify-content: center; */
-    align-items: center;
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 160px;
+    height: 100px;
+    margin-left: -80px;
+    margin-top: -50px;
+    border-radius: 5px;
+    background: #1e3f57;
+    animation: dot1_ 3s cubic-bezier(0.55, 0.3, 0.24, 0.99) infinite;
 }
 
-
-.code-loader {
-    color: var(--primary);
-    font-family: Consolas, Menlo, Monaco, monospace;
-    font-weight: bold;
-    font-size: 100px;
-    opacity: 0.8;
+.loader:nth-child(2) {
+    z-index: 11;
+    width: 150px;
+    height: 90px;
+    margin-top: -45px;
+    margin-left: -75px;
+    border-radius: 3px;
+    background: #3c517d;
+    animation-name: dot2_;
 }
 
-.code-loader span {
-    display: inline-block;
-    animation: pulse_414 0.4s alternate infinite ease-in-out;
+.loader:nth-child(3) {
+    z-index: 12;
+    width: 40px;
+    height: 20px;
+    margin-top: 50px;
+    margin-left: -20px;
+    border-radius: 0 0 5px 5px;
+    background: #6bb2cd;
+    animation-name: dot3_;
 }
 
-.code-loader span:nth-child(odd) {
-    animation-delay: 0.4s;
-}
+@keyframes dot1_ {
 
-@keyframes pulse_414 {
-    to {
-        transform: scale(0.8);
-        opacity: 0.5;
+    3%,
+    97% {
+        width: 160px;
+        height: 100px;
+        margin-top: -50px;
+        margin-left: -80px;
+    }
+
+    30%,
+    36% {
+        width: 80px;
+        height: 120px;
+        margin-top: -60px;
+        margin-left: -40px;
+    }
+
+    63%,
+    69% {
+        width: 40px;
+        height: 80px;
+        margin-top: -40px;
+        margin-left: -20px;
     }
 }
 
+@keyframes dot2_ {
 
+    3%,
+    97% {
+        height: 90px;
+        width: 150px;
+        margin-left: -75px;
+        margin-top: -45px;
+    }
 
-@media (min-width: 375px) and (max-width: 667px) {
-    .spinner-wrapper {
-        width: 75%;
-        top: 198px;
+    30%,
+    36% {
+        width: 70px;
+        height: 96px;
+        margin-left: -35px;
+        margin-top: -48px;
+    }
+
+    63%,
+    69% {
+        width: 32px;
+        height: 60px;
+        margin-left: -16px;
+        margin-top: -30px;
     }
 }
 
-@media (min-width: 767px) and (max-width: 1023px) {
-    .spinner-wrapper {
-        width: 85%;
-        top: 198px;
+@keyframes dot3_ {
+
+    3%,
+    97% {
+        height: 20px;
+        width: 40px;
+        margin-left: -20px;
+        margin-top: 50px;
+    }
+
+    30%,
+    36% {
+        width: 8px;
+        height: 8px;
+        margin-left: -5px;
+        margin-top: 49px;
+        border-radius: 8px;
+    }
+
+    63%,
+    69% {
+        width: 16px;
+        height: 4px;
+        margin-left: -8px;
+        margin-top: -37px;
+        border-radius: 10px;
     }
 }
-
-@media (min-width: 540px) and (max-width: 720px) {
-    .spinner-wrapper {
-        width: 81%;
-        top: 198px;
-    }
-}
-
-/* @media (min-width: 280px) and (max-width: 653px) {
-    .spinner-wrapper {
-        width: 66%;
-        top: 198px;
-    }
-} */
 </style>

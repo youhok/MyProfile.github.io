@@ -3,8 +3,13 @@
         <SideBar v-if="toggleSidebar.isShowSidebar" />
         <div class="content">
             <NavBar />
-            <div class="dashboard-content px-3 pt-4">
-                <router-view />
+            <div class="dashboard-content  px-3 pt-4">
+                <!-- <router-view /> -->
+                <router-view v-slot="{ Component }">
+                    <transition name="fade" mode="out-in">
+                        <component :is="Component" />
+                    </transition>
+                </router-view>
             </div>
         </div>
     </div>
@@ -18,15 +23,36 @@ const toggleSidebar = useToggleSidebarStore();
 </script>
 
 <style scoped>
+/* router animation */
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.10s ease-out;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: 0.3s ease-out;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
 .content {
     min-height: 100vh;
     width: 100%;
+
 }
-
-
 
 .wrapper {
     display: flex;

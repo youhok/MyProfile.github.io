@@ -26,6 +26,10 @@ app.use(cors(corsOptions));
 //application.x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// Set application/json response
+app.use(express.json({ limit: '10mb' }));
+
+
 //application/json response
 app.use(express.json());
 
@@ -48,11 +52,16 @@ const apiPrefix = "/api/v1"
 // auth
 import authRoute from "./routes/api/auth";
 //categories
-import categoriesRoute from "./routes/api/categoriesRoute"
+import categoriesRoute from "./routes/api/categoriesRoute";
 //subcategories
-import subcategoriesRoute from "./routes/api/subCategoriesRoute"
+import subcategoriesRoute from "./routes/api/subCategoriesRoute";
 
-app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute)
+//project
+import projectsRoute from "./routes/api/projectsRoute";
+
+app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute, projectsRoute);
+
+
 
 
 app.all('*', (req, res) => {

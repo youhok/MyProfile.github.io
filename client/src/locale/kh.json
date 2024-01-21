@@ -45,9 +45,10 @@
                 "content": "គំរូការងារពេញមួយឆ្នាំ Web Developer, Mobile App, Hosting, លំហូរការងារ និងច្រើនទៀត...",
                 "components": {
                     "contactBtn": "ទំនាក់ទំនង",
+                    "allBtn": "ទាំងអស់",
                     "websiteBtn": "វេបសាប",
                     "MoblieBtn": "ទូរស័ព្ទ",
-                    "WorkflowBtn": "លំហូរការងារ"
+                    "ToolBtn": "ឧបករណ៍"
                 }
             }
         },

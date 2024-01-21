@@ -21,7 +21,7 @@ export const CategoriesController = {
         try {
             const { data } = await useApiPrivate().get(`/api/v1/categories/${id}`);
 
-            console.log("🚀 ~ file: categoriesController.ts:24 ~ getOne: ~ data:", data)
+
             return data
         } catch (error: Error | any) {
             throw error.response.message
@@ -30,7 +30,7 @@ export const CategoriesController = {
     getAll: async () => {
         try {
             const { data } = await useApiPrivate().get(`/api/v1/categories`);
-            console.log("🚀 ~ file: categoriesController.ts:34 ~ getAll: ~ data:", data)
+
             return data
 
         } catch (error: Error | any) {
@@ -48,10 +48,9 @@ export const CategoriesController = {
         };
     },
 
-    delete: async (id: any) => {
+    delete: async (id: string) => {
         try {
             const { data } = await useApiPrivate().delete(`/api/v1/categories/${id}`);
-
             return data
         } catch (error: Error | any) {
             throw error.response.message

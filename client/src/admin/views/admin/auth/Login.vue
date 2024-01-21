@@ -13,9 +13,13 @@
                                 validation="required|email" />
                             <div class="double">
                                 <FormKit type="password" name="password" label="Password" placeholder="Enter your password"
-                                    validation="required" />
+                                    validation="required" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick"
+                                    suffix-icon-class="hover:text-blue-500" />
                             </div>
-                            <FormKit type="submit" label="Login" />
+                            <FormKit type="submit" :wrapper-class="{
+                                'formkit-wrapper': false,
+                                // 'formkit-input': false
+                            }" input-class="w-100" label="Login" />
                         </FormKit>
                     </div>
                 </div>
@@ -27,32 +31,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore, type LoginData } from "@/admin/stores/auth";
-
 import { toast } from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
-
 import { useRouter } from "vue-router"
-const submitted = ref<boolean>(false)
 
+const submitted = ref<boolean>(false)
 const router = useRouter();
 const authStore = useAuthStore();
+
+const handleIconClick = (node: any, e: any) => {
+    node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
+    node.props.type = node.props.type === 'password' ? 'text' : 'password'
+}
+
 const submitHandler = async (formData: LoginData) => {
     try {
-        console.log("🚀 ~ file: Register.vue:59 ~ submitHandler ~ formData:", formData)
         const response = await authStore.login(formData);
-        console.log("🚀 ~ file: Login.vue:44 ~ submitHandler ~ response:", response.error)
         router.replace({ name: "core.admin.dashboard" })
-        console.log(response);
+
         submitted.value = true;
     } catch (error: Error | any) {
-        if (error == 'Email or password is incorrect' || error == 'Request failed with status code 401') {
-            toast("Email or password is incorrect!", {
-                "theme": "auto",
-                "type": "error",
-                "transition": "slide",
-                "dangerouslyHTMLString": true
-            })
-        }
+        toast.error(error)
     }
 }
 </script>
@@ -68,6 +66,7 @@ const submitHandler = async (formData: LoginData) => {
 .modal-dialog {
     margin-top: 200px;
 }
+
 
 @media (max-width: 667px) {
     .modal-dialog {

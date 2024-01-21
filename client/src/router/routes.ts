@@ -35,7 +35,18 @@ const routes = [
                 component: () => import('../views/Project.vue'),
                 meta: {
                     pageTitle: 'projects'
-                }
+                },
+
+
+            },
+
+            {
+                path: '/project/project-detail/:id',
+                name: 'project.detail',
+                component: () => import('../views/projectDetail/projectDetail.vue'),
+                meta: {
+                    pageTitle: 'projectdetail'
+                },
             },
             {
                 path: '/contact',

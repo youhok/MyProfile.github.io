@@ -1,4 +1,5 @@
 import subCategories from "../models/subCategories"
+import AlertMessage from "../utils/alert-message";
 
 
 const SubCategoriesController = {
@@ -8,7 +9,7 @@ const SubCategoriesController = {
             const newCategory = await subCategories.create({
                 categoryId, khName, enName, status
             });
-            res.json(newCategory);
+            res.status(201).json({ data: newCategory, message: AlertMessage.createSuccess });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -17,8 +18,8 @@ const SubCategoriesController = {
     getOne: async (req, res) => {
         const _id = req.params.id
         try {
-            const category = await subCategories.findById(_id);
-            res.status(200).json(category);
+            const subCategory = await subCategories.findById(_id);
+            res.status(200).json(subCategory);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -26,8 +27,8 @@ const SubCategoriesController = {
 
     getAll: async (req, res) => {
         try {
-            const categoriesAll = await subCategories.find();
-            return res.json(categoriesAll);
+            const subCategoriesAll = await subCategories.find();
+            return res.json(subCategoriesAll);
         } catch (error) {
             console.log("🚀 ~ file: categoriesController.js:34 ~ getAll: ~ error:", error)
             return res.status(500).json({ error: error.message });
@@ -36,8 +37,8 @@ const SubCategoriesController = {
 
     update: async (req, res) => {
         try {
-            const updatedCategory = await subCategories.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            res.json(updatedCategory);
+            const updatedSubCategory = await subCategories.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            res.status(201).json({ data: updatedSubCategory, message: AlertMessage.editSuccess });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -45,8 +46,8 @@ const SubCategoriesController = {
 
     delete: async (req, res) => {
         try {
-            const deletedCategory = await subCategories.findByIdAndDelete(req.params.id);
-            res.json(deletedCategory);
+            const deletedSubCategory = await subCategories.findByIdAndDelete(req.params.id);
+            res.status(201).json({ data: deletedSubCategory, message: AlertMessage.deleteSuccess(req.params.id) });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

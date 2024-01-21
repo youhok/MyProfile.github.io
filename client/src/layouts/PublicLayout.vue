@@ -12,20 +12,6 @@
 
 import NavigationBar from "../components/NavigationBar.vue";
 
-
-
-// const mode = ref<string>('');
-
-// function toggleSwitch() {
-//     if (mode.value === 'light') {
-//         mode.value = "dark"
-//     } else {
-//         mode.value = "light"
-//     }
-// }
-
-
-
 </script>
 
 <style scoped>

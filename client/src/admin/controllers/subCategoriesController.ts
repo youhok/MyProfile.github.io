@@ -1,7 +1,7 @@
 import { useApiPrivate } from "../composables/useApi";
 
 export interface subCategories {
-    _id: string
+    _id: string,
     categoryId: string,
     khName: string,
     enName: string,
@@ -22,7 +22,7 @@ export const categoriesSubController = {
         try {
             const { data } = await useApiPrivate().get(`/api/v1/sub-categories/${id}`);
 
-
+            console.log("🚀 ~ file: subCategoriesController.ts:25 ~ getOne: ~ data:", data)
             return data
         } catch (error: Error | any) {
             throw error.response.message
@@ -49,10 +49,9 @@ export const categoriesSubController = {
         };
     },
 
-    delete: async (id: any) => {
+    delete: async (id: string) => {
         try {
             const { data } = await useApiPrivate().delete(`/api/v1/sub-categories/${id}`);
-
             return data
         } catch (error: Error | any) {
             throw error.response.message

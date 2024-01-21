@@ -24,6 +24,10 @@
 
 }
 
+
+
+
+
 /* child interit min-height from parent*/
 .min-h-inherit {
     min-height: inherit !important;

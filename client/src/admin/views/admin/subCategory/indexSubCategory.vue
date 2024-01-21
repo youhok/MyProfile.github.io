@@ -1,52 +1,35 @@
 <template>
     <div>
-        <div class="container-fluid mt-5 ">
+        <div class="container-fluid ">
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex justify-content-between">
-                        <h1>subCategory</h1>
+                        <h2>Sub Category</h2>
                         <button type="button" class="btn btn-primary Btn-add" @click="navigatetoCreate">Create</button>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <table class="content-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">khName</th>
-                                <th scope="col">enName</th>
-                                <th scope="col">status</th>
-                                <th scope="col">Operation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in subData" :key="index">
-                                <th scope="row">{{ index }}</th>
-                                <!-- <td>{{ item._id }}</td> -->
-                                <!-- <td>{{ item.categoryId }}</td> -->
-                                <td>{{ item.khName }}</td>
-                                <td>{{ item.enName }}</td>
-                                <td>{{ item.status }}</td>
-                                <td>
-                                    <template v-if="!showDeleteConfirmation">
-                                        <button type="button" class="btn btn-primary"
-                                            @click="navigateToEdit(item.categoryId)"><i
-                                                class="bi bi-pencil-square"></i></button>
-                                        <button type="button" class="btn btn-danger"
-                                            @click="showDeleteConfirmationDialog"><i class="bi bi-trash"></i></button>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-12 mt-4 ">
+                                <!-- Search  -->
+                                <FormKit type="search" placeholder="Search..." v-model="searchValue">
+                                    <template #prefixIcon>
+                                        <i class="bi bi-search mx-2 "></i>
                                     </template>
-                                    <template v-else>
-                                        <button type="button" class="btn btn-secondary"
-                                            @click="hideDeleteConfirmationDialog">Cancel</button>
-                                        <button type="button" class="btn btn-danger"
-                                            @click="DeleteSubCategories(item._id)">Yes</button>
+                                </FormKit>
+                                <!-- Operation -->
+                                <EasyDataTable buttons-pagination theme-color=var(--primary) show-index
+                                    table-class-name="customize-table shadow-sm" :headers="headers" :items="items"
+                                    :search-field="searchField" :search-value="searchValue">
+                                    <template #item-operation="item">
+                                        <EasyDataTableOperations @delete="DeleteSubCategories(item._id)" @edit="
+                                            navigateToEdit(item._id)" />
                                     </template>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </EasyDataTable>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,44 +39,48 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import EasyDataTableOperations from "@/admin/components/easy-data-table/EasyDataTableOperations.vue"
 import { useRouter } from 'vue-router';
-import { categoriesSubController, type subCategories } from '@/admin/controllers/subCategoriesController';
+import { categoriesSubController } from '@/admin/controllers/subCategoriesController';
+
+import type { Header, Item } from "vue3-easy-data-table";
+
+const searchField = ["khName", "status"];
+const searchValue = ref();
+
+const headers: Header[] = [
+    { text: "KhName", value: "khName" },
+    { text: "EnName", value: "enName" },
+    { text: "Type", value: "type" },
+    { text: "Status", value: "status" },
+    { text: "Operation", value: "operation", width: 200 },
+];
+
+const items = ref<Item[]>([]);
+console.log("🚀 ~ file: indexSubCategory.vue:59 ~ items:", items.value)
 
 const router = useRouter();
-const subData = ref<subCategories[]>([]);
-console.log("🚀 ~ file: IndexCategory.vue:58 ~ data:", subData)
 
-const showDeleteConfirmation = ref<boolean>(false);
-
-const showDeleteConfirmationDialog = () => {
-    showDeleteConfirmation.value = true;
-};
-
-const hideDeleteConfirmationDialog = () => {
-    showDeleteConfirmation.value = false;
-};
 const navigateToEdit = (id: string) => {
 
-    router.push({ name: 'editSubCategory', params: { id } });
+    router.push({ name: 'core.admin.editSubCategory', params: { id } });
 };
 
 const DeleteSubCategories = async (id: string) => {
-
     await categoriesSubController.delete(id)
-    subData.value = subData.value.filter((c) => c.categoryId !== id)
+    items.value = items.value.filter((c) => c._id !== id)
 }
 
 const navigatetoCreate = () => {
     router.push({
-        path: 'core.admin.createSubCategory'
+        path: '/core/admin/sub-category/create'
     })
 }
 onMounted(
     async () => {
         try {
             const response = await categoriesSubController.getAll();
-            console.log("🚀 ~ file: IndexCategory.vue:63 ~ response:", response)
-            subData.value = response;
+            items.value = response;
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -101,42 +88,42 @@ onMounted(
 </script>
 
 <style scoped>
-.content-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    width: 100%;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
+.customize-table {
+    --easy-table-border: 1px solid #e0e1dd;
+    --easy-table-row-border: 1px solid #e0e1dd;
 
-.content-table thead tr {
-    background-color: var(--primary);
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
-}
+    --easy-table-header-font-size: 14px;
+    --easy-table-header-height: 50px;
+    --easy-table-header-font-color: #fff;
+    --easy-table-header-background-color: var(--primary);
 
-.content-table th,
-.content-table td {
-    padding: 12px 15px;
-}
+    --easy-table-header-item-padding: 10px 15px;
 
-.content-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
+    --easy-table-body-even-row-font-color: #fff;
+    --easy-table-body-even-row-background-color: #4c5d7a;
 
-.content-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+    --easy-table-body-row-font-color: black;
+    --easy-table-body-row-background-color: white;
+    --easy-table-body-row-height: 50px;
+    --easy-table-body-row-font-size: 14px;
 
-.content-table tbody tr:last-of-type {
-    border-bottom: 2px solid var(--primary);
-}
+    --easy-table-body-row-hover-font-color: #2d3a4f;
+    --easy-table-body-row-hover-background-color: #eee;
 
-.content-table tbody tr.active-row {
-    font-weight: bold;
-    color: var(--primary);
+    --easy-table-body-item-padding: 10px 15px;
+
+    --easy-table-footer-background-color: white;
+    --easy-table-footer-font-color: black;
+    --easy-table-footer-font-size: 14px;
+    --easy-table-footer-padding: 0px 10px;
+    --easy-table-footer-height: 50px;
+
+    --easy-table-rows-per-page-selector-width: 70px;
+    --easy-table-rows-per-page-selector-option-padding: 10px;
+    --easy-table-rows-per-page-selector-z-index: 1;
+
+
+
+    --easy-table-loading-mask-background-color: #2d3a4f;
 }
 </style>

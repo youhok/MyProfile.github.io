@@ -10,17 +10,11 @@ const router = createRouter({
 
 router.beforeResolve(async (to, from, next) => {
   const authStore = useAuthStore()
-
-  console.log("🚀 ~ file: main.ts:78 ~ router.beforeEach ~ to.meta.requireAuth:", to.meta)
-  console.log("🚀 ~ file: main.ts:79 ~ router.beforeEach ~ authStore.isAuthenticated:", authStore.isAuthenticated)
   if (to.meta.requireAuth && !authStore.isAuthenticated) {
-    console.log('1')
     return next({ name: 'core.login', query: { redirect: to.fullPath } })
   } else if (to.meta.requireGuest && authStore.isAuthenticated) {
-    console.log('2')
     return next({ name: 'core.admin.dashboard' })
   } else {
-    console.log('3')
     return next()
   }
 })

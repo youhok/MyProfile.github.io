@@ -12,8 +12,10 @@
     }
   ],
   "compilerOptions": {
+    "module": "es2022",
+    "moduleResolution": "Node",
     "types": [
-      "vue3-toastify/global"
+      "vue3-toastify/global",
     ]
   }
 }

@@ -45,9 +45,10 @@
                 "content": " Samples of work througout the years Web Developer, Moblie App, Hosting , Work flow and more...",
                 "components": {
                     "contactBtn": "Contact",
+                    "allBtn": "All",
                     "websiteBtn": "Website",
                     "MoblieBtn": "Moblie",
-                    "WorkflowBtn": "Workflow"
+                    "ToolBtn": "Tool"
                 }
             }
         },

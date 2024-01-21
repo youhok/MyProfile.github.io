@@ -36,6 +36,7 @@ const adminRoutes = [
                         component: () => import('@/admin/views/admin/dashboard/Dashboard.vue'),
                         meta: {
                             pageTitle: 'Dashboard',
+                            icon: 'bi bi-speedometer'
                         },
                     },
                     {
@@ -96,6 +97,32 @@ const adminRoutes = [
                         component: () => import('@/admin/views/admin/subCategory/editSubCategory.vue'),
                         meta: {
                             pageTitle: 'Edit SubCategory',
+                        },
+                    },
+                    //project route
+                    {
+                        path: '/core/admin/project/index',
+                        name: 'core.admin.projectIndex',
+                        component: () => import('@/admin/views/admin/project/projectIndex.vue'),
+                        meta: {
+                            pageTitle: 'Project',
+                            icon: 'bi bi-projector-fill'
+                        },
+                    },
+                    {
+                        path: '/core/admin/project/create',
+                        name: 'core.admin.projectCreate',
+                        component: () => import('@/admin/views/admin/project/createProject.vue'),
+                        meta: {
+                            pageTitle: 'Create project',
+                        },
+                    },
+                    {
+                        path: '/core/admin/project/edit/:id',
+                        name: 'core.admin.projectEdit',
+                        component: () => import('@/admin/views/admin/project/editProject.vue'),
+                        meta: {
+                            pageTitle: 'Edit Project',
                         },
                     },
                 ]

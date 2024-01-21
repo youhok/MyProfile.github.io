@@ -59,7 +59,6 @@ export const useAuthStore = defineStore('auth', {
                 await this.getUser()
                 return data
             } catch (error: Error | any) {
-                console.log("🚀 ~ file: auth.ts:62 ~ login ~ error:", error)
                 if (error.response && error.response.data && error.response.data.message) {
                     throw error.response.data.message;
                 } else if (error.message) {
@@ -71,7 +70,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async register(payload: RegisterData) {
             try {
-                console.log(payload)
+
                 const { data } = await useApi().post(`/api/v1/auth/register`, payload);
                 return data
             } catch (error: Error | any) {

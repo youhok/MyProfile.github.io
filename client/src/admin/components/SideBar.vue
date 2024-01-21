@@ -2,13 +2,12 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <h3>Youhok</h3>
-            <strong>BS</strong>
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active">
+            <li class="">
                 <router-link class="dropdown-item" v-for="route in priveteRoute" :key="route.name" :to="route.path">
-                    <i class=""></i>
+                    <i :class="`${route.meta.icon}`"></i>
                     {{ route.meta.pageTitle }}
                 </router-link>
             </li>
@@ -76,11 +75,13 @@ const excludedRouteNames = [
     'core.admin.category.index',
     'core.admin.editCategory',
     'core.admin.indexSubCategory',
-    'core.admin.editSubCategory'
+    'core.admin.editSubCategory',
+    'core.admin.projectCreate',
+    'core.admin.projectEdit'
 ];
 
 const priveteRoute = adminRoutes[0].children[2].children?.filter((rc) => !excludedRouteNames.includes(rc.name));
-console.log("🚀 ~ file: SideBar.vue:79 ~ route:", priveteRoute)
+
 
 </script>
 
@@ -246,7 +247,11 @@ a[aria-expanded="true"]::before {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    /* background: #6d7fcc; */
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(13px);
+    backdrop-filter: blur(13px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 ul.CTAs {

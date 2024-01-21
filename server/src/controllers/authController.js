@@ -57,7 +57,7 @@ const authController = {
         }
         const user = await User.findOne({ email }).exec()
 
-        if (!user) return res.sendStatus(401)
+        if (!user) return res.status(401).json({ message: "Email isn't existed" })
 
         const match = await bcrypt.compare(password, user.password)
         if (!match) return res.status(401).json({ message: "Email or password is incorrect" })
@@ -86,7 +86,7 @@ const authController = {
         await user.save()
 
         res.cookie('refresh_token', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.json({ access_token: accessToken })
+        res.status(200).json({ access_token: accessToken, message: "welcome back, let's start today." })
     },
     logout: async (req, res) => {
         const cookies = req.cookies
@@ -132,7 +132,6 @@ const authController = {
         )
     },
     user: async (req, res) => {
-
         const user = req.user;
         return res.status(200).json(user);
     },

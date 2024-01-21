@@ -1,4 +1,3 @@
-
 <template>
   <div :class="isDark ? 'dark' : 'light'" :data-bs-theme="isDark ? 'dark' : 'light'">
     <router-view v-slot="{ Component }">
@@ -6,7 +5,6 @@
         <component :mode="isDark ? 'dark' : 'light'" :is="Component" />
       </transition>
     </router-view>
-
     <vue-progress-bar></vue-progress-bar>
     <!-- <LoadingVue /> -->
   </div>

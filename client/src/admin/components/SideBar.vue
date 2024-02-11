@@ -1,9 +1,9 @@
 <template>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Youhok</h3>
+          <h3>Youhok</h3>
         </div>
-
+      
         <ul class="list-unstyled components">
             <li class="">
                 <router-link class="dropdown-item" v-for="route in priveteRoute" :key="route.name" :to="route.path">
@@ -86,6 +86,12 @@ const priveteRoute = adminRoutes[0].children[2].children?.filter((rc) => !exclud
 </script>
 
 <style scoped>
+.Logo{
+    height:auto;
+    width: 1065px;
+    
+}
+
 .sidebar-link[data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;

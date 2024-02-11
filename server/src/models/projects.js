@@ -34,12 +34,10 @@ const PlatFormsSchema = Schema(
 )
 
 
-
-
 const projectSchema = Schema(
     {
         categoryId: {
-            type: String,
+            type: Schema.Types.ObjectId,
             required: true
         },
         name: {

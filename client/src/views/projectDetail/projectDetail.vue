@@ -1,15 +1,15 @@
 <template>
+ 
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 ">
                 <div class="image-prev" v-if="dataProjectDetail">
-                    <!-- <img src="https://www.themoviedb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg" alt="" width="350"> -->
                     <CloudImage :imageName="dataProjectDetail.thumbnail.public_id" :width="350" :height="450"
                         :responsiveSteps="[400]" :radius="3" />
                 </div>
             </div>
             <div class="col-lg-6  col-md-12 col-sm-12">
-                <h2 class="title">{{ dataProjectDetail?.name }}</h2>
+                <h2 class="title" v-if="dataProjectDetail" >{{ dataProjectDetail.name }}</h2>
                 <div class="tips">
                     <div class="stars d-flex gap-5">
                         <div>
@@ -18,10 +18,10 @@
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-regular fa-star"></i>
-                            <p>
-                                <a :href="`${dataProjectDetail?.demoLinks[0]?.link}`"
+                             <p v-if="dataProjectDetail">
+                                <a  :href="`${dataProjectDetail.demoLinks[0].link}`"
                                     style="text-decoration: none !important">
-                                    {{ dataProjectDetail?.demoLinks[0]?.name }}
+                                    {{ dataProjectDetail.demoLinks[0]?.name }}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                         class="bi bi-box-arrow-up-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
@@ -33,30 +33,34 @@
                             </p>
                         </div>
                         <div>
-                            <p class="day">{{ dayBeforeReleasedate }}</p>
+                         <p class="day" v-if="dataProjectDetail">{{ formatTime }}</p> 
                         </div>
 
                     </div>
 
                 </div>
 
-                <p class="desc">
-                    {{ dataProjectDetail?.description }}
+                <p class="desc" v-if="dataProjectDetail">
+                    {{ dataProjectDetail.description }}
                 </p>
 
-                <!-- button -->
-                <button class="cssbuttons-io">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-download" viewBox="0 0 16 16">
-                            <path
-                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                            <path
-                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                        </svg>
-                        Download
-                    </span>
-                </button>
+             
+                <template v-if="dataProjectDetail">
+                    <template v-if="dataProjectDetail.downloadable == !false">
+                        <button class="cssbuttons-io" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-download" viewBox="0 0 16 16">
+                                    <path
+                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                    <path
+                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                                </svg>
+                                Download
+                            </span>
+                        </button>
+                    </template>
+                </template>
 
                 <div class="container-fluid mt-5">
                     <div class="row">
@@ -69,7 +73,7 @@
                                                 CATEGORY
                                             </div>
                                         </span>
-                                        <span class="value">Website</span>
+                                        <span class="value">website</span>
                                     </div>
                                     <div class="stat">
                                         <span class="label">
@@ -77,7 +81,7 @@
                                                 STATUS
                                             </div>
                                         </span>
-                                        <span class="value">{{ dataProjectDetail?.status }}</span>
+                                        <span class="value" v-if="dataProjectDetail">{{ dataProjectDetail.status }}</span>
                                     </div>
                                     <div class="stat">
                                         <span class="label">
@@ -85,7 +89,7 @@
                                                 RELEASEDATE
                                             </div>
                                         </span>
-                                        <span class="value">{{ formattedDate }}</span>
+                                         <span class="value" v-if="dataProjectDetail">{{ formatDates }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -94,11 +98,11 @@
                 </div>
             </div>
         </div>
-        <!-- middle -->
+       
         <div class="row mt-5">
             <div class="col-12">
                 <div class="note bg-body-secondary">
-                    <div>
+                    <div v-if="dataProjectDetail">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                             class="bi bi-journal" viewBox="0 0 16 16">
                             <path
@@ -106,40 +110,66 @@
                             <path
                                 d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
                         </svg> :
-                        {{ dataProjectDetail?.note }}
+                        {{ dataProjectDetail.note }}
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- project screenshots -->
-        <div class="container mt-5 p-4  ">
+        
+        <div class="container mt-5 p-4 ">
+            <div class="row">
+                <div class="col-12" v-if="dataProjectDetail">
+                    
+                    <swiper :slidesPerView="3" :spaceBetween="30" :pagination="{
+                        clickable: true,
+                    }" :modules="modules" class="mySwiper">
+                        <swiper-slide v-for="screenshot in dataProjectDetail.screenshots" :key="screenshot._id">
+                            <CloudImage :imageName="screenshot.public_id" :width="350" :height="450"
+                                :responsiveSteps="[400]" :radius="3" />
+                        </swiper-slide>
 
-            <swiper :slidesPerView="3" :spaceBetween="30" :pagination="{
-                clickable: true,
-            }" :modules="modules" class="mySwiper">
-                <swiper-slide v-for="screenshot in dataProjectDetail?.screenshots" :key="screenshot._id">
-                    <CloudImage :imageName="screenshot.public_id" :width="350" :height="450" :responsiveSteps="[400]"
-                        :radius="3" />
-                </swiper-slide>
-            </swiper>
+                    </swiper>
+                </div>
+            </div>  
 
         </div>
+
+   
+        <template class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Which one your platform ?</h1>
+                    </div>
+                    <div class="modal-body" v-if="dataProjectDetail">
+                        <button v-for="platform in dataProjectDetail.platforms" :key="platform._id" type="button"
+                            class="btn btn-light d-flex gap-4 w-100 mt-1 rounded-3" @click="openPlatformLink(platform.url)">
+                            <i :class="`${platform.icon}`"></i> {{ platform.name }} 
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </template>
 
         <div class="row bg-body-tertiary p-4 rounded-4 ">
             <div class="col-lg-6 col-md-12 col-sm-12 ">
                 <h2>FEATURES</h2>
                 <hr>
-                <ul>
-                    <li>{{ dataProjectDetail?.features[0] }}</li>
+                <ul v-if="dataProjectDetail">
+                    <li>{{ dataProjectDetail.features[0] }}</li>
                 </ul>
 
             </div>
             <div class="col-lg-6  col-md-12 col-sm-12 ">
                 <h2>REQUIREMENTS</h2>
                 <hr>
-                <ul>
+                <ul v-if="dataProjectDetail">
                     <li>{{ dataProjectDetail?.requirements[0] }}</li>
                 </ul>
             </div>
@@ -150,6 +180,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { projectController, type Project } from "@/admin/controllers/projectController"
 import { useRoute, useRouter } from "vue-router";
 import CloudImage from "@/admin/components/CloudImage.vue";
@@ -162,29 +193,40 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 const modules = [Pagination];
 
+
 const route = useRoute()
-const router = useRouter()
+// const router = useRouter()
 import moment from 'moment'
-import { onMounted, ref } from 'vue';
-
-const id = route.params.id.toString()
-
-const dataProjectDetail = ref<Project>();
-console.log("🚀 ~ dataProjectDetail:", dataProjectDetail)
-
-const date = moment(dataProjectDetail.value?.releaseDate)
-
-const formattedDate = date.format('ll');
-const dayBeforeReleasedate = date.startOf('day').fromNow();
 
 
+const id = route.params.id
 
-onMounted(async () => {
-    dataProjectDetail.value = await projectController.getOne(id)
-})
+const dataProjectDetail = ref();
+
+const formatDates = ref();
+const formatTime = ref();
 
 
+onMounted(
+    async () => {
+        const tempProjectdetail: Project = await projectController.getOne(id as string) 
+        console.log("data respone", tempProjectdetail)
+        const formattedReleaseDate = moment(tempProjectdetail.releaseDate).format("MMM Do YY")
+        const formattedTimes = moment(tempProjectdetail.releaseDate).startOf('day').fromNow();
+        console.log(formattedReleaseDate)
+        console.log(formattedTimes)
+        formatDates.value = formattedReleaseDate
+        formatTime.value = formattedTimes
+        dataProjectDetail.value = tempProjectdetail
+        console.log("data in ref", dataProjectDetail.value)
+    })
 
+
+const openPlatformLink = (link: string | undefined) => {
+    if (link) {
+        window.open(link, '_blank');
+    }
+}
 
 </script>
 
@@ -361,7 +403,7 @@ card-footer {
 .stat .value {
     /* display: block; */
     color: white;
-    padding: 1px 10px;
+    padding: 1px 5px;
     /* font-weight: 700;
     font-size: 20px; */
     margin-top: 5px;

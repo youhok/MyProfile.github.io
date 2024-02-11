@@ -1,7 +1,7 @@
 
 <template>
     <MDBNavbar expand="lg" :class="`navbar-${mode}`" :bg="mode" container>
-        <MDBNavbarBrand href="#">Youhok</MDBNavbarBrand>
+        <MDBNavbarBrand href="#"><img src="../assets/image/youhokLogo.png" class="Logo img-fluid border border-4 rounded-circle" alt=""></MDBNavbarBrand>
         <MDBNavbarToggler @click="collapse1 = !collapse1" target="#navbarSupportedContent"></MDBNavbarToggler>
         <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,11 +15,11 @@
                     }}</router-link>
                 </MDBNavbarItem>
             </MDBNavbarNav>
-            <button class="button translate-button" v-if="isSwitchOn ? $i18n.locale = 'KH' : $i18n.locale = 'EN'"
-                @click="toggleSwitch()">
-                <img :src="`../src/components/translate/${isSwitchOn ? 'cambodia.png' : 'united-kingdom.png'}`" alt=""
-                    class="img-fluid">
-            </button>
+                <button class="button translate-button" v-if="toggleLangangStore.isShowLang ? $i18n.locale = 'KH' : $i18n.locale = 'EN'"
+                    @click="toggleLangangStore.toggleLang()">
+                    <img :src="`../src/components/translate/${toggleLangangStore.isShowLang  ? 'cambodia.png' : 'united-kingdom.png'}`" alt=""
+                        class="img-fluid">
+                </button>
 
             <Toggle :mode="mode" @taggleSwitch="$emit('taggleSwitch')" />
         </MDBCollapse>
@@ -28,12 +28,13 @@
 
 <script setup lang="ts">
 import routes from '../router/routes'
-import { defineProps } from 'vue';
 import { ref } from 'vue';
 import Toggle from './Toggle.vue';
+import { useToggleSidebarStore } from '@/admin/stores/toggleSidebar'; // Replace with the correct path
+
+const toggleLangangStore = useToggleSidebarStore();
 
 const publicRoutes = routes[0].children.filter((rc) => rc.name !== 'routeChecker' && rc.name !== 'project.detail');
-
 
 import {
     MDBIcon,
@@ -50,12 +51,6 @@ import {
     MDBDropdownItem
 } from 'mdb-vue-ui-kit';
 
-const isSwitchOn = ref<boolean>(false);
-
-const toggleSwitch = () => {
-    isSwitchOn.value = !isSwitchOn.value;
-};
-
 const collapse1 = ref(false);
 const dropdown1 = ref(false);
 const props = defineProps({
@@ -69,6 +64,12 @@ const props = defineProps({
 </script>
 
 <style scoped>
+
+.Logo{
+    height:auto;
+    width: 65px;
+    
+}
 .nav-item a {
     /* color: black; */
     position: relative;
@@ -97,15 +98,15 @@ const props = defineProps({
     transform: scaleX(1);
 }
 
-a.router-link-active {
+/* a.router-link-active {
     color: var(--primary);
-}
+} */
 
 /* translate button */
 .block {
     width: 70px;
     height: 70px;
-    background: white;
+    background: rgb(36, 23, 23);
     border-radius: 15px;
     margin-right: 20px;
     display: flex;

@@ -6,10 +6,11 @@ const SubCategoriesController = {
     create: async (req, res) => {
         const { categoryId, khName, enName, status } = req.body
         try {
-            const newCategory = await subCategories.create({
+            const newSubCategory = await subCategories.create({
                 categoryId, khName, enName, status
             });
-            res.status(201).json({ data: newCategory, message: AlertMessage.createSuccess });
+            res.status(201).json({ data: newSubCategory, message: AlertMessage.createSuccess });
+        console.log(newSubCategory)
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -27,7 +28,24 @@ const SubCategoriesController = {
 
     getAll: async (req, res) => {
         try {
-            const subCategoriesAll = await subCategories.find();
+            const pipelines = [
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "categoryId",
+                        foreignField: "_id",
+                        as: "categoryDoc"
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$categoryDoc',
+                        preserveNullAndEmptyArrays: true,
+                    }
+                }
+            ]
+            const subCategoriesAll = await subCategories.aggregate(pipelines).allowDiskUse(true);
+            console.log(subCategoriesAll)
             return res.json(subCategoriesAll);
         } catch (error) {
             console.log("🚀 ~ file: categoriesController.js:34 ~ getAll: ~ error:", error)

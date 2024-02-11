@@ -7,6 +7,7 @@ class DynamicOptions {
         const options: Option[] = [];
         for (let index = 0; index < categories.length; index++) {
             const category = categories[index];
+           
             options.push({ label: `${category.enName} - ${category.khName} - ${category.type}`, value: category._id })
         }
         return options

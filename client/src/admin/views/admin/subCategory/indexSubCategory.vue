@@ -51,13 +51,12 @@ const searchValue = ref();
 const headers: Header[] = [
     { text: "KhName", value: "khName" },
     { text: "EnName", value: "enName" },
-    { text: "Type", value: "type" },
+    { text: "Type", value: "categoryDoc.enName" },
     { text: "Status", value: "status" },
     { text: "Operation", value: "operation", width: 200 },
 ];
 
 const items = ref<Item[]>([]);
-console.log("🚀 ~ file: indexSubCategory.vue:59 ~ items:", items.value)
 
 const router = useRouter();
 
@@ -81,6 +80,7 @@ onMounted(
         try {
             const response = await categoriesSubController.getAll();
             items.value = response;
+            console.log(response)
         } catch (error) {
             console.error('Error fetching data:', error);
         }

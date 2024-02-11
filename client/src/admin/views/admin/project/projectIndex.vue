@@ -19,8 +19,15 @@
                                 <CloudImage :imageName="thumbnail.public_id" class="project-image" />
                             </div>
                         </template>
+                        <template #item-operation="item">
+                            <EasyDataTableOperations @delete="DeleteCategories(item._id)" @edit="
+                                navigateToEdit(item._id)" />
+                        </template>
                     </EasyDataTable>
                 </div>
+            </div>
+            <div v-if="loading" class="loading-spinner">
+                <div class="loader"></div>
             </div>
 
         </div>
@@ -33,8 +40,12 @@ import { projectController } from "@/admin/controllers/projectController"
 import type { Header, Item } from "vue3-easy-data-table";
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from "vue";
+import EasyDataTableOperations from "@/admin/components/easy-data-table/EasyDataTableOperations.vue";
 
 const router = useRouter();
+const loading = ref<boolean>(false);
+
+
 
 
 const navigatetoCreate = () => {
@@ -48,15 +59,32 @@ const navigatetoCreate = () => {
 const headers: Header[] = [
     { text: "Gallary", value: "gallary" },
     { text: "Name", value: "name" },
+    { text: "Type", value: "categoryDoc.enName" },
     { text: "Description", value: "description" },
     { text: "Release Date", value: "releaseDate" },
     { text: "Status", value: "status" },
+    { text: "Operation", value: "operation", width: 200 },
 ];
 
+const DeleteCategories = async (id: string) => {
+    loading.value = true;
+    try {
+        await projectController.delete(id);
+        items.value = items.value.filter((c) => c._id !== id);
+    } catch (error) {
+        console.error("Error deleting project:", error);
+    } finally {
+        loading.value = false;
+    }
+
+}
+
+const navigateToEdit = (id: string) => {
+    router.push({ name: 'core.admin.projectEdit', params: { id } });
+};
 
 
 const items = ref<Item[]>([]);
-
 
 onMounted(
     async () => {
@@ -125,5 +153,55 @@ onMounted(
     border-radius: 50%;
     object-fit: cover;
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 10%);
+}
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15);
+-webkit-backdrop-filter: blur(8px);
+backdrop-filter: blur(8px);
+border: 1px solid rgba(255,255,255,0.075);
+    z-index: 1000;
+    /* Ensure it's above other elements */
+}
+
+/* loading */
+.loader {
+  width: 5em;
+  height: 5em;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+  animation: spin 3s infinite;
+}
+
+.loader::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(-45deg);
+  }
+
+  50% {
+    transform: rotate(-360deg);
+    border-radius: 50%;
+  }
+
+  100% {
+    transform: rotate(-45deg);
+  }
 }
 </style>

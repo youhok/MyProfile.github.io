@@ -1,5 +1,6 @@
 import { useApiPrivate } from "../composables/useApi";
 
+import { type Categories}  from "@/admin/controllers/categoriesController"
 interface DemoLink {
     name?: string,
     link?: string
@@ -18,9 +19,14 @@ interface Platforms {
     url?: string
 }
 
+interface ScreenshotFile{
+    name?: string, file?: File
+}
+
 export interface Project {
     _id?: string,
     categoryId: string,
+    categoryDoc: Categories,
     name: string,
     thumbnail: Thumbnail,
     thumbnailFile?: [{ name?: string, file?: File }],
@@ -28,7 +34,7 @@ export interface Project {
     // thumbnailBase64: string,
     description: string,
     features: string[],
-    screenshotFiles?: [{ name?: string, file?: File }],
+    screenshotFiles?: [ScreenshotFile?],
     screenshots: Array<ScreenShot>
     demoLinks: [DemoLink?]
     downloadable: Boolean,
@@ -38,9 +44,12 @@ export interface Project {
     note: string,
     status: string,
     totalDownload?: number
+    
 }
 
 interface ScreenShot {
+    public_id?: string,
+    url?: string,
     name?: string,
     base64?: string,
 }
@@ -62,8 +71,7 @@ export const projectController = {
     getOne: async (id: string) => {
         try {
             const { data } = await useApiPrivate().get(`/api/v1/projects/${id}`);
-
-
+        
             return data
         } catch (error: Error | any) {
             throw error.response.message
@@ -90,7 +98,7 @@ export const projectController = {
         };
     },
 
-    delete: async (id: any) => {
+    delete: async (id: string) => {
         try {
             const { data } = await useApiPrivate().delete(`/api/v1/projects/${id}`);
             return data

@@ -74,6 +74,7 @@ app.all('*', (req, res) => {
 })
 
 
+
 mongoose.connection.once("open", () => {
     console.log('DB connected')
     app.listen(PORT, () => { console.log(`Server connect on port http://localhost:${PORT}`) });

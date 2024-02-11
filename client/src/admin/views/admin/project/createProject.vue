@@ -90,7 +90,7 @@
                                             <div class="row">
                                                 <FormKit type="group">
                                                     <div class="col-4">
-                                                        <FormKit label="Icon*" name="icon" value="ti ti-brand-windows"
+                                                        <FormKit label="Icon*" name="icon" value="bi bi-microsoft"
                                                             :wrapper-class="{ 'formkit-wrapper': false }" disabled />
                                                     </div>
                                                     <div class="col-4">
@@ -113,7 +113,7 @@
                                             <div class="row">
                                                 <FormKit type="group">
                                                     <div class="col-4">
-                                                        <FormKit label="Icon*" name="icon" value="ti ti-brand-finder"
+                                                        <FormKit label="Icon*" name="icon" value="bi bi-apple"
                                                             :wrapper-class="{ 'formkit-wrapper': false }" disabled />
                                                     </div>
                                                     <div class="col-4">
@@ -138,7 +138,7 @@
                                                 <FormKit type="group">
                                                     <div class="col-4">
 
-                                                        <FormKit label="Icon*" name="icon" value="ti ti-brand-ubuntu"
+                                                        <FormKit label="Icon*" name="icon" value="bi bi-ubuntu"
                                                             :wrapper-class="{ 'formkit-wrapper': false }" disabled />
                                                     </div>
                                                     <div class="col-4">
@@ -161,7 +161,7 @@
                                             <div class="row">
                                                 <FormKit type="group">
                                                     <div class="col-4">
-                                                        <FormKit label="Icon*" name="icon" value="ti ti-brand-apple"
+                                                        <FormKit label="Icon*" name="icon" value="bi bi-app"
                                                             :wrapper-class="{ 'formkit-wrapper': false }" disabled />
                                                     </div>
                                                     <div class="col-4">
@@ -184,7 +184,7 @@
                                             <div class="row">
                                                 <FormKit type="group">
                                                     <div class="col-4">
-                                                        <FormKit label="Icon*" name="icon" value="ti ti-brand-android"
+                                                        <FormKit label="Icon*" name="icon" value="bi bi-android2"
                                                             :wrapper-class="{ 'formkit-wrapper': false }" disabled />
                                                     </div>
                                                     <div class="col-4">
@@ -246,17 +246,15 @@ import ConvertFile from '@/admin/utils/convert-file';
 import compressor from '@/admin/utils/compressor';
 import BackBtn from '@/admin/components/BackBtn.vue';
 
+
 const categoryOpts = ref<Option[]>([]);
-// const showPlatforms = ref<boolean>(false);
 const submitted = ref<boolean>(false);
 
 onMounted(async () => {
-    const tempCategories = await CategoriesController.getAll()
+    const selector = {};
+    const tempCategories = await CategoriesController.getAll(selector)
     categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
 })
-
-
-// 
 
 
 const formData = ref<Project>({
@@ -286,7 +284,6 @@ const addDemoLink = () => {
 
 const submit = async (data: Project) => {
     try {
-
         if (data.thumbnailFile && data.thumbnailFile.length > 0 && data.thumbnailFile[0].file) {
             const thumbnailFile = data.thumbnailFile[0].file
             console.log("O File", thumbnailFile)
@@ -309,6 +306,12 @@ const submit = async (data: Project) => {
                 data.screenshots.push({ name: screenshot.name, base64: screenshotBase64 })
             }
         }
+
+        if (data.platforms && data.platforms.length) {
+            const platformsWithUrl = data.platforms.filter(platform => platform.url);
+            data.platforms = platformsWithUrl;
+        }
+        
         const response = await projectController.create(data);
 
         toast.success(response.message)

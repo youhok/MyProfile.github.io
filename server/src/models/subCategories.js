@@ -6,7 +6,7 @@ const subcategoriesSchema = Schema(
     {
 
         categoryId: {
-            type: String,
+            type: Schema.Types.ObjectId,
             required: true
         },
         khName: {

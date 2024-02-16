@@ -88,7 +88,7 @@ const click = () => {
 
 </script>
 
-<style scoped>
+<style  scoped>
 .skills {
     height: 60px;
     width: 60px;

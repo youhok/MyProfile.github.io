@@ -14,7 +14,7 @@
                                 <!-- Search  -->
                                 <FormKit type="search" placeholder="Search..." v-model="searchValue">
                                     <template #prefixIcon>
-                                        <i class="bi bi-search mx-2 "></i>
+                                        <i class="bi bi-search mx-2"></i>
                                     </template>
                                 </FormKit>
                                 <!-- Operation -->

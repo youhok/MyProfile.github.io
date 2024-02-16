@@ -11,7 +11,7 @@
                     {{ $t('pages.about.skills.content.talk') }}
                 </p>
 
-                <button class="ui-btn" @click="click">
+                <button class="ui-btn" @click="click()">
                     <span>
                         {{ $t('pages.about.leftSide.components.projectBtn') }}
                     </span>

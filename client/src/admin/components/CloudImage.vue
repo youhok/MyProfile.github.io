@@ -6,7 +6,7 @@
 import { AdvancedImage, responsive, lazyload, placeholder } from "@cloudinary/vue";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { fill } from "@cloudinary/url-gen/actions/resize";
-import { PropType } from "vue";
+import type { PropType } from "vue";
 const cld = new Cloudinary({
     cloud: {
         cloudName: import.meta.env.VITE_CLOUDINARY_NAME

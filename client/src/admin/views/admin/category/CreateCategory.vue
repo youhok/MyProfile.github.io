@@ -37,7 +37,6 @@
 
                     <div class="d-flex">
                         <FormKit type="submit" label="Create" />
-
                     </div>
                 </div>
             </div>
@@ -50,6 +49,11 @@ import BackBtn from '@/admin/components/BackBtn.vue';
 import { ref } from 'vue'
 import StaticOption from '@/admin/options/staticOption'
 import { CategoriesController, type Categories } from "@/admin/controllers/categoriesController"
+
+
+
+
+
 
 import { toast } from "vue3-toastify";
 

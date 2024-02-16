@@ -18,7 +18,7 @@
 
                     <div class="col-lg-12">
                         <FormKit type="select" label="Category*" :wrapper-class="{ 'formkit-wrapper': false }"
-                            name="categoryId" placeholder="categoryId" :options="categoryOpts" />
+                            name="categoryId" placeholder="categoryId" :options="categoryOptions" />
                     </div>
                     <div class="col-lg-12">
                         <FormKit type="text" name="khName" label="Name (KH)" :wrapper-class="{ 'formkit-wrapper': false }"
@@ -49,18 +49,28 @@ import { ref } from 'vue';
 import StaticOption, { type Option } from '@/admin/options/staticOption';
 import { CategoriesController } from "@/admin/controllers/categoriesController";
 import { categoriesSubController, type subCategories } from "@/admin/controllers/subCategoriesController"
-import DynamicOptions from '@/admin/options/dynamicOption';
+// import DynamicOptions from '@/admin/options/dynamicOption';
 import { onMounted } from 'vue';
 import BackBtn from '@/admin/components/BackBtn.vue';
 const submitted = ref<boolean>(false);
-const categoryOpts = ref<Option[]>([]);
+
+// const categoryOpts = ref<Option[]>([]);
 import { toast } from 'vue3-toastify';
 import { reset } from '@formkit/vue';
+const categoryOptions = ref<{ label: string; value: string }[]>([]);
+
+
+
 
 
 onMounted(async () => {
     const tempCategories = await CategoriesController.getAll()
-    categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
+    categoryOptions.value = tempCategories.map((category:any) => ({
+        label: `${category.enName} - ${category.khName} - ${category.type}`,
+        value: category._id
+    }));
+    // categoryOpts.value = DynamicOptions.categroyOption(tempCategories) 
+  
 })
 const submitHandler = async (formdata: subCategories) => {
 

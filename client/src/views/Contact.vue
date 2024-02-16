@@ -5,7 +5,7 @@
                 <h1>{{ $t('pages.contact.leftSide.header') }}</h1>
                 <h4>{{ $t('pages.contact.leftSide.content') }}</h4>
 
-                <Splide :options="{ rewind: true }" aria-label="My Favorite Images">
+                <!-- <Splide :options="{ rewind: true }" aria-label="My Favorite Images">
                     <SplideSlide>
                         <img src="../assets/image/javascript.jpg" alt="Sample 1" class="img-fluid">
                     </SplideSlide>
@@ -15,7 +15,7 @@
                     <SplideSlide>
                         <img src="../assets/image/tc39.jpg" alt="Sample 2" class="img-fluid">
                     </SplideSlide>
-                </Splide>
+                </Splide> -->
 
                 <div class="social__container">
 
@@ -66,15 +66,15 @@
 import '@splidejs/vue-splide/css/sea-green';
 
 
-import { defineComponent } from 'vue';
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
+// import { defineComponent } from 'vue';
+// import { Splide, SplideSlide } from '@splidejs/vue-splide';
 
-defineComponent({
-    components: {
-        Splide,
-        SplideSlide,
-    },
-});
+// defineComponent({
+//     components: {
+//         Splide,
+//         SplideSlide,
+//     },
+// });
 
 
 

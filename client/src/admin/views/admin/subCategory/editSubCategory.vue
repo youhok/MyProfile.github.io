@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <FormKit type="select" label="Category*" :wrapper-class="{ 'formkit-wrapper': false }"
-                            name="categoryId" placeholder="categoryId" :options="categoryOpts" />
+                            name="categoryId" placeholder="categoryId" :options="categoryOptions" />
                     </div>
                     <div class="col-lg-12">
                         <FormKit type="text" name="khName" label="Your name in khmer"
@@ -41,20 +41,25 @@ import { categoriesSubController, type subCategories } from "@/admin/controllers
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from 'vue';
 import { CategoriesController } from "@/admin/controllers/categoriesController";
-import DynamicOptions from '@/admin/options/dynamicOption';
+// import DynamicOptions from '@/admin/options/dynamicOption';
 import { toast } from "vue3-toastify";
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id.toString()
 console.log("🚀 ~ file: editSubCategory.vue:48 ~ id:", id)
 const submitted = ref<boolean>(false)
-const initialValues = ref<subCategories>()
-const categoryOpts = ref<Option[]>([])
+const initialValues = ref()
+// const categoryOpts = ref<Array<Option>>([])
+const categoryOptions = ref<{ label: string; value: string }[]>([]);
 
 onMounted(async () => {
-
     const tempCategories = await CategoriesController.getAll()
-    categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
+    categoryOptions.value = tempCategories.map((category:any) => ({
+        label: `${category.enName} - ${category.khName} - ${category.type}`,
+        value: category._id
+    }));
+
+    // categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
     initialValues.value = await categoriesSubController.getOne(id)
 
     console.log("🚀 ~ file: editSubCategory.vue:60 ~ onMounted ~ initialValues:", initialValues.value)

@@ -13,12 +13,12 @@
             <div class="row wrapper">
                 <div class="col-12">
                     <FormKit :form-class="submitted ? 'hide' : 'show'" id="licenseForm" type="form" v-model="formData"
-                        @submit="submit" #default="{ value }">
+                        @submit="submit">
                         <FormKit type="file" label="Thumbnail*" :wrapper-class="{ 'formkit-wrapper': false }"
                             name="thumbnailFile" accept=".jpg,.png,.pdf" validation="required" />
 
                         <FormKit type="select" label="Category*" :wrapper-class="{ 'formkit-wrapper': false }"
-                            name="categoryId" placeholder="Select options" :options="categoryOpts" />
+                            name="categoryId" placeholder="Select options" :options="categoryOptions" />
 
                         <FormKit type="text" name="name" label="Name*" :wrapper-class="{ 'formkit-wrapper': false }"
                             placeholder="Enter your project name" validation="required" />
@@ -226,7 +226,7 @@
                                 'Development',
                                 'Coming Soon',
                             ]" validation="required" />
-                        <pre wrap>{{ value }}</pre>
+
                     </FormKit>
 
                 </div>
@@ -237,28 +237,38 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { type Option } from '@/admin/options/staticOption';
+// import { type Option } from '@/admin/options/staticOption';
 import { projectController, type Project } from "@/admin/controllers/projectController";
-import { CategoriesController, type Categories } from "@/admin/controllers/categoriesController";
+import { CategoriesController } from "@/admin/controllers/categoriesController";
 import { toast } from 'vue3-toastify';
-import DynamicOptions from '@/admin/options/dynamicOption';
+// import DynamicOptions from '@/admin/options/dynamicOption';
 import ConvertFile from '@/admin/utils/convert-file';
 import compressor from '@/admin/utils/compressor';
 import BackBtn from '@/admin/components/BackBtn.vue';
 
-
-const categoryOpts = ref<Option[]>([]);
-const submitted = ref<boolean>(false);
+const categoryOptions = ref<{ label: string; value: string }[]>([]);
+// const categoryOpts = ref<Option[]>([]);
+const submitted = ref<boolean>(false);  
 
 onMounted(async () => {
-    const selector = {};
-    const tempCategories = await CategoriesController.getAll(selector)
-    categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
+    const tempCategories = await CategoriesController.getAll();
+    categoryOptions.value = tempCategories.map((category:any) => ({
+        label: `${category.enName} - ${category.khName} - ${category.type}`,
+        value: category._id
+    }));
+    // categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
 })
 
 
 const formData = ref<Project>({
     categoryId: '',
+    categoryDoc: {
+        khName: '',
+        enName: '',
+        status: '',
+        type: '',
+        _id: ''
+    },
     name: '',
     thumbnail: {},
     // thumbnailName: '',
@@ -282,6 +292,10 @@ const addDemoLink = () => {
     })
 }
 
+interface Platforms {
+  // Define the properties of the Platforms type
+}
+
 const submit = async (data: Project) => {
     try {
         if (data.thumbnailFile && data.thumbnailFile.length > 0 && data.thumbnailFile[0].file) {
@@ -301,17 +315,23 @@ const submit = async (data: Project) => {
         if (data.screenshotFiles && data.screenshotFiles.length > 0) {
             for (let index = 0; index < data.screenshotFiles.length; index++) {
                 const screenshot = data.screenshotFiles[index]
-                const screenshot_Blob_File = await compressor(screenshot.file!) as Blob
-                const screenshotBase64 = await ConvertFile.toBase64(screenshot_Blob_File);
-                data.screenshots.push({ name: screenshot.name, base64: screenshotBase64 })
+                if (screenshot) {
+                    const screenshot_Blob_File = await compressor(screenshot.file!) as Blob;
+                    const screenshotBase64 = await ConvertFile.toBase64(screenshot_Blob_File);
+                    data.screenshots.push({ name: screenshot.name, base64: screenshotBase64 });
+                }
+                // const screenshot_Blob_File = await compressor(screenshot.file!) as Blob
+                // const screenshotBase64 = await ConvertFile.toBase64(screenshot_Blob_File);
+                // data.screenshots.push({ name: screenshot.name, base64: screenshotBase64 })
             }
         }
 
         if (data.platforms && data.platforms.length) {
-            const platformsWithUrl = data.platforms.filter(platform => platform.url);
-            data.platforms = platformsWithUrl;
+            const platformsWithUrl = data.platforms.filter(platform => platform && platform.url);
+            (data.platforms as (Platforms | undefined)[]) = platformsWithUrl;
         }
-        
+
+
         const response = await projectController.create(data);
 
         toast.success(response.message)

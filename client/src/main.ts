@@ -13,7 +13,7 @@ import { ToasityConfig } from './config/toastify.config'
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 
-import VueSplide from '@splidejs/vue-splide';
+// import VueSplide from '@splidejs/vue-splide';
 
 import { plugin, defaultConfig } from "@formkit/vue";
 import '@formkit/themes/genesis'
@@ -28,6 +28,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import VueProgressBar from "@aacassandra/vue3-progressbar";
+
 
 const i18n = createI18n({
     locale: 'EN',
@@ -59,7 +60,7 @@ app.component('EasyDataTable', Vue3EasyDataTable);
 app.use(Vue3Toastify, ToasityConfig as ToastContainerOptions);
 
 app.use(VueProgressBar, options);
-app.use(VueSplide);
+// app.use(VueSplide);
 app.use(Vue3Marquee);
 app.use(i18n);
 app.use(plugin, defaultConfig());

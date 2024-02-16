@@ -14,8 +14,15 @@
   "compilerOptions": {
     "module": "es2022",
     "moduleResolution": "Node",
+    // "baseUrl": "./",
+    // "paths": {
+    //   "@/*": [
+    //     "src/*"
+    //   ]
+    // },
     "types": [
       "vue3-toastify/global",
-    ]
-  }
+    ],
+    
+  },
 }

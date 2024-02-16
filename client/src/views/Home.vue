@@ -13,8 +13,18 @@
             <div class="col-lg-6 col-md-12 order-1 col-sm-12 order-2 ">
                 <p class="Font-P">{{ $t('pages.home.rightSide.sub-header') }}</p>
                 <h2 class="title">{{ $t('pages.home.rightSide.sub-header-2') }}</h2>
-                <div class="Font-P2">{{ $t('pages.home.rightSide.sub-header-3') }} <span id="element"></span>
-                    Developer</div>
+                <div class="Font-P2">
+                    {{ $t('pages.home.rightSide.sub-header-3') }}
+                    <v-typical class="blink" :steps="[
+                        'Website',
+                        1000,
+                        'Moblie',
+                        1000,
+                        'Creative',
+                        1000]" :loop="Infinity" :wrapper="'h2'">
+                    </v-typical>
+                     Developer
+                </div>
 
                 <h3>{{ $t('pages.home.rightSide.header') }}</h3>
                 <ButtonGroup />
@@ -25,23 +35,34 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+// import { onMounted } from "vue";
 import ButtonGroup from "../components/ButtonGroup.vue";
 import Iconmedia from "../components/Iconmedia.vue"
-import { TxtAnime } from "txtanime.js";
-
-onMounted(() => {
-    new TxtAnime("#element", {
-        effect: 'txt-an-7',
-        text: ['Website', 'Moblie', 'Creative'],
-    })
-})
+// import { TxtAnime } from "txtanime.js";
+import VTypical from 'vue-typical';
+// onMounted(() => {
+//     new TxtAnime("#element", {
+//         effect: 'txt-an-7',
+//         text: ['Website', 'Moblie', 'Creative'],
+//     })
+// })
 </script>
 
 <style scoped>
 .Font-P {
     font-size: 30px;
 }
+
+.Font-P2 {
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Center items vertically */
+    gap: 20px;
+}
+.blink{
+    color: var(--primary);
+    font-size: 45px;
+}
+
 
 #element {
     color: var(--primary);
@@ -81,12 +102,9 @@ onMounted(() => {
         display: none;
     }
 
-
     .Font-P {
         margin-top: 50px;
     }
-
-
 
 }
 </style>

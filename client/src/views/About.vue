@@ -18,7 +18,7 @@
             </div>
 
             <div class="col-lg-6 col-md-12  col-sm-12 ">
-                <div :class="`card text-bg-${mode}`">
+                <div class="card">
 
                     <div class="top">
                         <div class="dots">

@@ -18,7 +18,7 @@
                             :wrapper-class="{ 'formkit-wrapper': false }" validation="required" />
 
                         <FormKit type="select" label="Category*" :wrapper-class="{ 'formkit-wrapper': false }"
-                            name="categoryId" placeholder="Select options" :options="categoryOpts" />
+                            name="categoryId" placeholder="Select options" :options="categoryOptions" />
 
                         <FormKit type="text" name="name" label="Name*" :wrapper-class="{ 'formkit-wrapper': false }"
                             placeholder="Enter your project name" validation="required" />
@@ -238,23 +238,28 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { ref, onMounted } from 'vue'
-import { type Option } from '@/admin/options/staticOption';
+// import { type Option } from '@/admin/options/staticOption';
 import { type Project, projectController } from "@/admin/controllers/projectController";
 import { CategoriesController, type Categories } from "@/admin/controllers/categoriesController";
-import DynamicOptions from '@/admin/options/dynamicOption';
+// import DynamicOptions from '@/admin/options/dynamicOption';
 import { toast } from "vue3-toastify";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import ConvertFile from '@/admin/utils/convert-file';
 const route = useRoute()
-const router = useRouter()
-const categoryOpts = ref<Option[]>([]);
+// const router = useRouter()
+const categoryOptions = ref<{ label: string; value: string }[]>([]);
+// const categoryOpts = ref<Option[]>([]);
 const submitted = ref<boolean>(false);
 const id = route.params.id.toString();
 import compressor from '@/admin/utils/compressor';
 
 onMounted(async () => {
     const tempCategories = await CategoriesController.getAll()
-    categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
+    categoryOptions.value = tempCategories.map((category:any) => ({
+        label: `${category.enName} - ${category.khName} - ${category.type}`,
+        value: category._id
+    }));
+    // categoryOpts.value = DynamicOptions.categroyOption(tempCategories)
     const tempProject: Project = await projectController.getOne(id);
     if (tempProject.thumbnail && tempProject.thumbnail.name && tempProject.thumbnail.url) {
         const thumbnailFile = await ConvertFile.fromUrl(tempProject.thumbnail.url, tempProject.thumbnail.name)
@@ -286,6 +291,13 @@ onMounted(async () => {
 
 const formData = ref<Project>({
     categoryId: '',
+    categoryDoc: {
+        khName: '',
+        enName: '',
+        status: '',
+        type: '',
+        _id: ''
+    },
     name: '',
     thumbnail: {},
     // thumbnailName: '',
@@ -345,7 +357,7 @@ const submit = async (formdata: Project) => {
 
             }
         }
-
+  
         const response = await projectController.update(id, formdata);
         toast.success(response.message);
         submitted.value = true;

@@ -1,12 +1,17 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
+  "include": [
+    "src/**/*.ts", // Adjust the pattern to match your TypeScript files
+    "src/**/*.json", // Include JSON files in the src directory and its subdirectories
+  ],
   "compilerOptions": {
     "composite": true,
     "lib": [],
     "types": [
       "node",
-      "jsdom"
-    ]
+      "jsdom",
+      "vite/client"
+    ],
   }
 }

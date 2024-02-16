@@ -52,7 +52,7 @@ const route = useRoute()
 const router = useRouter()
 const id = route.params.id.toString();
 const submitted = ref<boolean>(false)
-const initialValues = ref<Categories>()
+const initialValues = ref()
 import { toast } from "vue3-toastify";
 
 

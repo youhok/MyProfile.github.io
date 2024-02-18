@@ -64,15 +64,26 @@ app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute, projectsRoute
 
 
 
-app.all('*', (req, res) => {
-    res.sendStatus(404);
-    if (req.accepts('json')) {
-        res.json({ 'error': '404 not Found' })
-    } else {
-        res.type('text').send('404 Not Found')
-    }
-})
+// app.all('*', (req, res) => {
+//     res.sendStatus(404);
+//     if (req.accepts('json')) {
+//         res.json({ 'error': '404 not Found' })
+//     } else {
+//         res.type('text').send('404 Not Found')
+//     }
+// })
 
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../public/index.html'))
+// })
+
+
+app.all("*", (req, res) => {
+    res.status(404);
+    req.accepts("json")
+      ? res.json({ error: "404 Not Found" })
+      : res.type("text").send("404 Not Found");
+  });
 
 
 mongoose.connection.once("open", () => {

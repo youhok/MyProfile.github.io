@@ -17,6 +17,17 @@ const PORT = process.env.PORT || 3500;
 connectMongoDB();
 
 
+// Set headers for JavaScript files served from the static directory
+app.use('/static', express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, path, stat) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    }
+  }));
+
+
+
 //Allow Credentials
 app.use(credentials);
 
@@ -60,7 +71,6 @@ import subcategoriesRoute from "./routes/api/subCategoriesRoute";
 import projectsRoute from "./routes/api/projectsRoute";
 
 app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute, projectsRoute);
-
 
 
 

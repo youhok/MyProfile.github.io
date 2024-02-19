@@ -14,18 +14,11 @@ import authenticationMiddleware from "./middleware/authentication"
 const app = express();
 const PORT = process.env.PORT || 3500;
 
+//connect to mongodb
 connectMongoDB();
 
 
-// Set headers for JavaScript files served from the static directory
-app.use('/static', express.static(path.join(__dirname, 'public'), {
-    setHeaders: (res, path, stat) => {
-      if (path.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript');
-      }
-    }
-  }));
-
+//---- setup middleware ----//
 
 
 //Allow Credentials
@@ -50,7 +43,8 @@ app.use(cookieParser());
 app.use(authenticationMiddleware);
 
 //static files
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, '../public')))
+// app.use('/static', express.static(path.join(__dirname, 'public')));
 
 //Default error hander
 app.use(errorHandlerMiddleware);
@@ -83,11 +77,15 @@ app.use(apiPrefix, authRoute, categoriesRoute, subcategoriesRoute, projectsRoute
 //     }
 // })
 
+// Deployment
+// you must set * to catch all server route
+// read more: https://sentry.io/answers/why-don-t-react-router-urls-work-when-refreshing-or-writing-manually/
+
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
-
+// 404 Not Found
 app.all("*", (req, res) => {
     res.status(404);
     req.accepts("json")

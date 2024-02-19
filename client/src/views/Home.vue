@@ -23,9 +23,12 @@
                         'Creative',
                         1000]" :loop="Infinity" :wrapper="'h2'">
                     </v-typical>
-                     Developer
                 </div>
-
+                
+                <div class="Font-P2">
+                    Developer
+                </div>
+                
                 <h3>{{ $t('pages.home.rightSide.header') }}</h3>
                 <ButtonGroup />
                 <Iconmedia />

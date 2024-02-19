@@ -1,0 +1,1 @@
+import{d as a,o,c as r,a as s,t as l}from"./index-9f45cced.js";const i=a({__name:"BackBtn",props:{labelBtn:{type:String,default:"Back"}},setup(e){return(n,t)=>(o(),r("div",null,[s("button",{type:"button",class:"btn btn-primary Btn-add",onClick:t[0]||(t[0]=p=>n.$router.back())},l(e.labelBtn),1)]))}});export{i as _};

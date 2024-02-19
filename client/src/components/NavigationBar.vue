@@ -17,10 +17,9 @@
             </MDBNavbarNav>
                 <button class="button translate-button" v-if="toggleLangangStore.isShowLang ? $i18n.locale = 'KH' : $i18n.locale = 'EN'"
                     @click="toggleLangangStore.toggleLang()">
-                    <img :src="`../src/components/translate/${toggleLangangStore.isShowLang  ? 'cambodia.png' : 'united-kingdom.png'}`" alt=""
-                        class="img-fluid">
+                    <img src="../assets/image/united-kingdom.png" alt="" srcset="" v-if="toggleLangangStore.isShowLang == false" class="img-fluid">
+                    <img src="../assets/image/cambodia.png" alt="" srcset="" class="img-fluid" v-else>
                 </button>
-
             <Toggle :mode="mode" @taggleSwitch="$emit('taggleSwitch')" />
         </MDBCollapse>
     </MDBNavbar>
@@ -33,6 +32,7 @@ import Toggle from './Toggle.vue';
 import { useToggleSidebarStore } from '@/admin/stores/toggleSidebar'; // Replace with the correct path
 
 const toggleLangangStore = useToggleSidebarStore();
+
 
 const publicRoutes = routes[0].children.filter((rc) => rc.name !== 'routeChecker' && rc.name !== 'project.detail');
 
@@ -50,6 +50,12 @@ import {
     MDBDropdownMenu,
     MDBDropdownItem
 } from 'mdb-vue-ui-kit';
+
+
+
+
+
+
 
 const collapse1 = ref(false);
 const dropdown1 = ref(false);

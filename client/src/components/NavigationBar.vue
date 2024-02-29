@@ -17,7 +17,7 @@
             </MDBNavbarNav>
                 <button class="button translate-button" v-if="toggleLangangStore.isShowLang ? $i18n.locale = 'KH' : $i18n.locale = 'EN'"
                     @click="toggleLangangStore.toggleLang()">
-                    <img src="../assets/image/united-kingdom.png" alt="" srcset="" v-if="toggleLangangStore.isShowLang == false" class="img-fluid">
+                    <img src="../assets/image/united-states.png" alt="" srcset="" v-if="toggleLangangStore.isShowLang == false" class="img-fluid">
                     <img src="../assets/image/cambodia.png" alt="" srcset="" class="img-fluid" v-else>
                 </button>
             <Toggle :mode="mode" @taggleSwitch="$emit('taggleSwitch')" />

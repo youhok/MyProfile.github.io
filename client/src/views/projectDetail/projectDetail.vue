@@ -19,7 +19,7 @@
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-regular fa-star"></i>
                              <p v-if="dataProjectDetail">
-                                <a  :href="`${dataProjectDetail.demoLinks[0].link}`"
+                                <a  :href="`${dataProjectDetail.demoLinks[0]?.link}`"
                                     style="text-decoration: none !important">
                                     {{ dataProjectDetail.demoLinks[0]?.name }}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
